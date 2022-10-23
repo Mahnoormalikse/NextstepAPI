@@ -12,26 +12,29 @@ $con=$db->connect();
 
 if($_SERVER['REQUEST_METHOD']=='POST'){
 
-    if(isset($_POST['t_id']) 
-    && isset($_POST['s_id'])
-        
-      
+    if(isset($_POST['email'])
+        && isset($_POST['password'])
     ){
 
         $db=new DbOperations();
-        $result=$db->RegisterStudent($_POST['t_id'], $_POST['s_id']);
-         if($result==1){
+        $result=$db->updatePassword($_POST['email'],$_POST['password']);
+        if($result==0){
+            $response['error']=false;
+            $response['code']=200;
+            $response['message']="Password updated";    
+        }else{
             $response['error']=true;
             $response['code']=404;
-            $response['message']="Student registered Successfully";
+            $response['message']="Account Not Created Successfully";
 
+        }
     }else{
         $response['error']=true;
         $response['code']=404;
         $response['message']="Required fields Missing";
     }
 
-}} else {
+}else {
     $response['error']=true;
     $response['code']=500;
     $response['message']="Invalid Request Method";

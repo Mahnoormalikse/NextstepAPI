@@ -15,28 +15,28 @@ $img = array();
 $data1 = array();
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
-    $query = "SELECT * FROM `tbl_chat`";
+    $query = "SELECT * FROM `tbl_t_profile`";
     $stmt = $con->prepare($query);
     $stmt->execute();
     $stmt->store_result();
     $row = $stmt->num_rows() > 0;
     if ($row == 1) {
         $stmt->bind_result(
-            $chat_id,
-            $chat_message,
-            $sender_id,
-            $receiver_id,
-            $sender_type,
-            $chat_datetime
+            $id,
+            $name,
+            $email,
+            $qualification,
+            $gender,
+            $specialization
         );
         while ($row = $stmt->fetch()) {
             $data = array(
-                'chat_id' => $chat_id,
-                'chat_message' => $chat_message,
-                'sender_id' => $sender_id,
-                'receiver_id' => $receiver_id,
-                'sender_type' => $sender_type,
-                'chat_datetime' => $chat_datetime
+                'id' => $id,
+                'name' => $name,
+                'email' => $email,
+                'qualification' => $qualification,
+                'gender' => $gender,
+                'specialization' => $specialization
             );
             array_push($resultSet, $data);
         }

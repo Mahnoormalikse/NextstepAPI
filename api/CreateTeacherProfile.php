@@ -14,25 +14,29 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
     if(isset($_POST['id']) 
     && isset($_POST['name'])
+    && isset($_POST['email'])
         && isset($_POST['qualification'])
         && isset($_POST['gender'])
+        && isset($_POST['specialization'])
       
     ){
 
         $db=new DbOperations();
-        $result=$db->CreateTeacherProfile($_POST['id'], $_POST['name'],  $_POST['qualification'], $_POST['gender']);
+        $result=$db->CreateTeacherProfile($_POST['id'], $_POST['name'], $_POST['email'], $_POST['qualification'], $_POST['gender'], $_POST['specialization']);
          if($result==1){
-            $response['error']=true;
-            $response['code']=404;
+            $response['error']=false;
+            $response['code']=200;
             $response['message']="Profile created Successfully";
 
-    }else{
+    }
+    else{
         $response['error']=true;
         $response['code']=404;
         $response['message']="Required fields Missing";
     }
 
-}else {
+}
+else {
     $response['error']=true;
     $response['code']=500;
     $response['message']="Invalid Request Method";

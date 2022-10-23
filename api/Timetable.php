@@ -12,22 +12,25 @@ $con=$db->connect();
 
 if($_SERVER['REQUEST_METHOD']=='POST'){
 
-    if(isset($_POST['t_id']) 
-    && isset($_POST['s_id'])
-        
+    if(isset($_POST['id']) 
+    && isset($_POST['date'])
+    && isset($_POST['start_time'])
+    && isset($_POST['end_time'])
+    && isset($_POST['link'])
+    && isset($_POST['name'])
       
     ){
 
         $db=new DbOperations();
-        $result=$db->RegisterStudent($_POST['t_id'], $_POST['s_id']);
+        $result=$db->Timetable($_POST['id'], $_POST['date'], $_POST['start_time'], $_POST['end_time'], $_POST['link'], $_POST['name']);
          if($result==1){
-            $response['error']=true;
-            $response['code']=404;
-            $response['message']="Student registered Successfully";
+            $response['error']=false;
+            $response['code']=200;
+            $response['message']="Timetable Updated Successfully";
 
     }else{
-        $response['error']=true;
-        $response['code']=404;
+        $response['error']=false;
+        $response['code']=200;
         $response['message']="Required fields Missing";
     }
 

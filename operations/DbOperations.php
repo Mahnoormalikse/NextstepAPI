@@ -30,18 +30,22 @@ class DbOperations
     public function CreateTeacherProfile(
         $id,
         $name,
+        $email,
         $qualification,
-        $gender
+        $gender,
+        $specialization
     ) {
-            $sql = "INSERT INTO tbl_t_profile(id,name,qualification,gender)
-             VALUES (?,?,?,?)";
+            $sql = "INSERT INTO tbl_t_profile(id,name,email,qualification,gender,specialization)
+             VALUES (?,?,?,?,?,?)";
             $stmt = $this->con->prepare($sql);
             $stmt->bind_param(
-                'isss',
+                'isssss',
                 $id,
                 $name,
+                $email,
                 $qualification,
-                $gender
+                $gender,
+                $specialization
             );
             if ($stmt->execute()) {
                 return 1;
@@ -74,22 +78,59 @@ class DbOperations
         
     }
 
-    
+    public function updatePassword($email, $pass)
+    {
+        $password = md5($pass);
+        $sql="UPDATE  tbl_user SET password=? WHERE email=? ";
+        $stmt = $this->con->prepare($sql);
+        $stmt->bind_param('ss', $password, $email);
+        $stmt->execute();
+        $stmt->store_result();
+        return $stmt->num_rows > 0; 
+        
+    }
+
+
+
     public function RegisterStudent(
         $t_id,
-        $name,
-        $email,
-        $password
+        $s_id
     ) {
-            $sql = "INSERT INTO tbl_register_student(t_id,name,email,password)
-             VALUES (?,?,?,?)";
+            $sql = "INSERT INTO tbl_register_student(t_id,s_id)
+             VALUES (?,?)";
             $stmt = $this->con->prepare($sql);
             $stmt->bind_param(
-                'isss',
+                'ii',
                 $t_id,
+                $s_id
+            );
+            if ($stmt->execute()) {
+                return 1;
+            } else {
+                return 2;
+            }
+        
+    }
+
+    public function Timetable(
+        $id,
+        $name,
+        $link,
+        $date,
+        $start_time,
+        $end_time
+    ) {
+            $sql = "INSERT INTO tbl_timetable(id,name,link,date,start_time,end_time)
+             VALUES (?,?,?,?,?,?)";
+            $stmt = $this->con->prepare($sql);
+            $stmt->bind_param(
+                'isssss',
+                $id,
                 $name,
-                $email,
-                $password
+                $link,
+                $date,
+                $start_time,
+                $end_time
             );
             if ($stmt->execute()) {
                 return 1;

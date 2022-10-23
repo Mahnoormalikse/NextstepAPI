@@ -1,8 +1,5 @@
 <?php
 header("Content-Type: application/json; charset=UTF-8");
-
-$upload_dir='profilepicture/';
-
 include_once '../include/DbConnect.php';
 include_once '../operations/DbOperations.php';
 
