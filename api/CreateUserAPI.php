@@ -21,7 +21,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
             $response['code']=404;
             $response['message']="Email Already Exists";    
         }else if($result==1){
-
+            $user = $db->getCurrentUser($_POST['email']);
             $response['error']=false;
             $response['code']=200;
             $response['message']="Account Created Successfully";

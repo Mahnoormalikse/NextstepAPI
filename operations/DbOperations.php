@@ -114,23 +114,24 @@ class DbOperations
 
     public function Timetable(
         $id,
-        $name,
-        $link,
         $date,
         $start_time,
-        $end_time
+        $end_time,
+        $link,
+        $name
+       
     ) {
-            $sql = "INSERT INTO tbl_timetable(id,name,link,date,start_time,end_time)
+            $sql = "INSERT INTO tbl_timetable(id,date,start_time,end_time,link,name)
              VALUES (?,?,?,?,?,?)";
             $stmt = $this->con->prepare($sql);
             $stmt->bind_param(
                 'isssss',
                 $id,
-                $name,
-                $link,
                 $date,
                 $start_time,
-                $end_time
+                $end_time,
+                $link,
+                $name
             );
             if ($stmt->execute()) {
                 return 1;
@@ -177,6 +178,16 @@ class DbOperations
         $stmt->execute();
         $stmt->store_result();
         return $stmt->num_rows > 0;
+    }
+
+    public function getCurrentUser($email)
+    {
+        $sql = "SELECT * FROM tbl_user WHERE email=? ";
+        $stmt = $this->con->prepare($sql);
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+        $stmt->store_result();
+        echo $stmt->insert_id;
     }
 
     private function CheckMechanicEmail($email)
