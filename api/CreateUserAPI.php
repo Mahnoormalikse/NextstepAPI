@@ -16,14 +16,20 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
         $db=new DbOperations();
         $result=$db->CreateUser($_POST['name'],$_POST['email'],$_POST['password']);
-        if($result==0){
+
+
+        // $response['error']='Testing';
+        // $response['message']=$result;
+
+        if($result[0]==0){
             $response['error']=true;
             $response['code']=404;
             $response['message']="Email Already Exists";    
-        }else if($result==1){
+        }else if($result[0]==1){
             $user = $db->getCurrentUser($_POST['email']);
             $response['error']=false;
             $response['code']=200;
+            $response['id']=$result[1];
             $response['message']="Account Created Successfully";
         }else{
             $response['error']=true;

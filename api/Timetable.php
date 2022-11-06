@@ -29,8 +29,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
             $response['message']="Timetable Updated Successfully";
 
     }else{
-        $response['error']=false;
-        $response['code']=200;
+        $response['error']=true;
+        $response['code']=404;
         $response['message']="Required fields Missing";
     }
 

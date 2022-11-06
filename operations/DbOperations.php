@@ -21,9 +21,16 @@ class DbOperations
             $stmt = $this->con->prepare($sql);
             $stmt->bind_param('sss', $name, $email, $password);
             if ($stmt->execute()) {
-                return 1;
+                return array(
+                    0 => 1,
+                    1 => $stmt->insert_id
+                );
             } else {
-                return 2;
+                return array(
+                    0 => 2,
+                    1 => 0
+                );
+                //return 2;
             }
         }
     }
@@ -182,12 +189,31 @@ class DbOperations
 
     public function getCurrentUser($email)
     {
-        $sql = "SELECT * FROM tbl_user WHERE email=? ";
+        $resultSet = array();
+        $sql = "SELECT id FROM tbl_user WHERE email=? ";
         $stmt = $this->con->prepare($sql);
         $stmt->bind_param('s', $email);
         $stmt->execute();
         $stmt->store_result();
-        echo $stmt->insert_id;
+        // echo $stmt->insert_id;
+
+        $row = $stmt->num_rows() > 0;
+        if ($row == 1) {
+            $stmt->bind_result(
+                $id
+            );
+            while ($row = $stmt->fetch()) {
+                $data = array(
+                    'id' => $id
+                );
+                array_push($resultSet, $data);
+            }
+
+            $response['error'] = false;
+            $response['code'] = 200;
+            $response['message'] = "record found";
+            $response['records']   = $resultSet;
+        }
     }
 
     private function CheckMechanicEmail($email)
